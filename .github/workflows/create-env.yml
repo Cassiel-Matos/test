@@ -1,0 +1,29 @@
+name: Create Prod Environment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  create-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create environment
+        uses: peter-evans/create-github-environment@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-owner: Cassiel-Matos
+          repo-name: test
+          environment-name: prod
+
+      - name: Add secret variable
+        uses: peter-evans/add-github-secret@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-owner: Cassiel-Matos
+          repo-name: test
+          secret-name: teste
+          secret-value: ${{ secrets.TESTE_VALUE }} # Replace with your actual secret value
+
